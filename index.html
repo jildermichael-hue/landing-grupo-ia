@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Comunidad IA Ambiental | Equilibria Consulting</title>
+  <meta name="description" content="Únete a la comunidad más grande de Inteligencia Artificial aplicada al Medio Ambiente. Aprende, crea y transforma con IA.">
+  <meta name="author" content="Equilibria Consulting">
+  <meta name="theme-color" content="#1a0635">
+  <meta property="og:title" content="Comunidad IA Ambiental | Equilibria Consulting">
+  <meta property="og:description" content="Únete a la comunidad más grande de IA aplicada al Medio Ambiente.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === PURPLE-DOMINANT PALETTE === */
+      --purple-deep: #0d0221;
+      --purple-dark: #1a0635;
+      --purple-mid: #2d0a5e;
+      --purple-vivid: #7D07F2;
+      --purple-light: #a855f7;
+      --purple-glow: #c084fc;
+      --magenta: #c850c0;
+      --blue: #4183D9;
+      --turquoise: #07D9C4;
+      --white: #ffffff;
+      --off-white: #f3eeff;
+      --lavender: #e8d5ff;
+      --text-on-dark: #f0e6ff;
+      --text-on-dark-soft: rgba(232,213,255,0.85);
+      --text-on-light: #1a0635;
+      --text-on-light-soft: #5a4478;
+      --gradient-main: linear-gradient(135deg, var(--turquoise), var(--blue), var(--purple-vivid), var(--magenta));
+      --gradient-purple: linear-gradient(135deg, #2d0a5e, #7D07F2, #c850c0);
+      --gradient-hero: linear-gradient(160deg, #0d0221 0%, #1a0635 25%, #2d0a5e 50%, #4a1a8a 75%, #1a0635 100%);
+      --glass-bg: rgba(255,255,255,0.07);
+      --glass-bg-light: rgba(255,255,255,0.65);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-border-light: rgba(125,7,242,0.15);
+      --section-padding: clamp(60px, 12vh, 120px);
+      --container-width: min(92%, 1200px);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text-on-dark);
+      background: var(--purple-deep);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--magenta); color: var(--white); }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* === PARTICLE CANVAS === */
+    #particle-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* === TYPOGRAPHY === */
+    .gradient-text {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 50px;
+      font-size: clamp(11px, 2.8vw, 14px); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      background: rgba(125,7,242,0.15);
+      border: 1px solid rgba(168,85,247,0.25);
+      color: var(--purple-glow);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+
+    .section-badge-light {
+      background: rgba(125,7,242,0.08);
+      border-color: rgba(125,7,242,0.2);
+      color: var(--purple-vivid);
+    }
+
+    .section-title {
+      font-size: clamp(28px, 7vw, 56px); font-weight: 800;
+      line-height: 1.08; letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: clamp(15px, 3.8vw, 20px); font-weight: 400;
+      line-height: 1.6; opacity: 0.85;
+    }
+
+    .container {
+      width: var(--container-width); margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+
+    section {
+      position: relative; padding: var(--section-padding) 0; overflow: hidden;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.85); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* === GRADIENT LINE === */
+    .gradient-line {
+      width: 80px; height: 4px; border-radius: 2px;
+      background: var(--gradient-main); margin: 16px auto;
+      background-size: 200% 100%;
+      animation: gradientShift 3s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* === BUTTONS === */
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 36px; border-radius: 60px;
+      font-family: var(--font); font-size: clamp(15px, 3.8vw, 18px); font-weight: 700;
+      color: var(--white); background: linear-gradient(135deg, #25D366, #128C7E);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+      position: relative; overflow: hidden; z-index: 1;
+    }
+    .btn-whatsapp::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(135deg, #2be06e, #1aae6e);
+      opacity: 0; transition: opacity 0.3s; z-index: -1;
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 35px rgba(37,211,102,0.5); }
+    .btn-whatsapp:hover::before { opacity: 1; }
+    .btn-whatsapp:active { transform: translateY(0) scale(0.98); }
+    .btn-whatsapp svg { width: 24px; height: 24px; flex-shrink: 0; }
+
+    .btn-cta-gradient {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; border-radius: 60px;
+      font-family: var(--font); font-size: clamp(14px, 3.5vw, 16px); font-weight: 600;
+      color: var(--white); background: var(--gradient-purple);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(125,7,242,0.35);
+    }
+    .btn-cta-gradient:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(125,7,242,0.5); }
+
+    /* === FLOATING WHATSAPP — FULL PILL BUTTON === */
+    #floating-whatsapp {
+      position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 60px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: var(--white); font-family: var(--font);
+      font-size: 15px; font-weight: 700;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+      cursor: pointer; text-decoration: none;
+      animation: floatingBounce 2.5s ease-in-out infinite;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    #floating-whatsapp::before {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2.5s ease-in-out infinite;
+    }
+    #floating-whatsapp::after {
+      content: ''; position: absolute; inset: -4px;
+      border-radius: 60px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      opacity: 0.3; z-index: -1;
+      animation: pulseRing 2s ease-in-out infinite;
+    }
+    #floating-whatsapp svg { width: 24px; height: 24px; fill: white; flex-shrink: 0; position: relative; z-index: 1; }
+    #floating-whatsapp span { position: relative; z-index: 1; white-space: nowrap; }
+
+    @keyframes floatingBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      50%, 100% { left: 100%; }
+    }
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.08); opacity: 0; }
+    }
+
+    @media (max-width: 480px) {
+      #floating-whatsapp { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 13px; }
+    }
+
+    /* === GLASS CARD === */
+    .glass-card {
+      background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+      padding: clamp(24px, 5vw, 36px);
+      box-shadow: 0 8px 32px rgba(125,7,242,0.06);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.4s;
+      position: relative; overflow: hidden;
+    }
+    .glass-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--gradient-main);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .glass-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(125,7,242,0.15); border-color: rgba(168,85,247,0.3); }
+    .glass-card:hover::before { opacity: 1; }
+
+    .glass-card-light {
+      background: var(--glass-bg-light); border-color: var(--glass-border-light);
+      color: var(--text-on-light);
+    }
+    .glass-card-light p { color: var(--text-on-light-soft); }
+
+    /* === FLOATING ROBOT === */
+    .robot-float { animation: robotFloat 4s ease-in-out infinite; }
+    @keyframes robotFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-12px) rotate(0.5deg); }
+      75% { transform: translateY(-6px) rotate(-0.5deg); }
+    }
+    .robot-glow { filter: drop-shadow(0 20px 40px rgba(125,7,242,0.3)) drop-shadow(0 8px 16px rgba(7,217,196,0.15)); }
+
+    /* === CUPOS LIMITADOS BANNER === */
+    .cupos-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 28px;
+      border-radius: 50px;
+      background: rgba(255,45,85,0.12);
+      border: 1px solid rgba(255,45,85,0.35);
+      font-family: var(--font);
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 700;
+      color: #ff6b6b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      position: relative;
+      overflow: hidden;
+    }
+    .cupos-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: bannerShimmer 3s ease-in-out infinite;
+    }
+    @keyframes bannerShimmer {
+      0% { left: -100%; }
+      50%,100% { left: 100%; }
+    }
+
+    /* === ORBS === */
+    .orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+    .orb-1 { width: clamp(200px,40vw,400px); height: clamp(200px,40vw,400px); background: radial-gradient(circle, rgba(125,7,242,0.2) 0%, transparent 70%); top: 10%; right: -10%; animation: orbFloat1 8s ease-in-out infinite; }
+    .orb-2 { width: clamp(250px,50vw,500px); height: clamp(250px,50vw,500px); background: radial-gradient(circle, rgba(200,80,192,0.15) 0%, transparent 70%); bottom: 10%; left: -15%; animation: orbFloat2 10s ease-in-out infinite; }
+    .orb-3 { width: clamp(150px,30vw,300px); height: clamp(150px,30vw,300px); background: radial-gradient(circle, rgba(7,217,196,0.12) 0%, transparent 70%); top: 40%; left: 50%; animation: orbFloat3 7s ease-in-out infinite; }
+    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,20px);} }
+    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-30px);} }
+    @keyframes orbFloat3 { 0%,100%{transform:translate(0,0);}50%{transform:translate(-20px,-15px);} }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      background: var(--gradient-hero);
+    }
+    #hero .container {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 60px 0 30px; gap: 12px;
+    }
+    .hero-badge { animation: badgePulse 3s ease-in-out infinite; }
+    @keyframes badgePulse { 0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0.2);}50%{box-shadow:0 0 0 10px rgba(168,85,247,0);} }
+
+    .hero-title {
+      font-size: clamp(32px, 8.5vw, 64px); font-weight: 900;
+      line-height: 1.05; letter-spacing: -0.03em; max-width: 800px;
+      color: var(--white);
+    }
+    .hero-subtitle { font-size: clamp(15px, 3.8vw, 19px); color: rgba(232,213,255,0.9); max-width: 550px; line-height: 1.6; }
+
+    .hero-robot-wrapper {
+      position: relative;
+      width: clamp(320px, 75vw, 520px);
+      margin: 0;
+      transition: transform 0.05s linear, opacity 0.3s;
+      will-change: transform, opacity;
+    }
+    .hero-robot-wrapper img { width: 100%; position: relative; z-index: 2; }
+    .hero-robot-wrapper::after {
+      content: ''; position: absolute; bottom: -5%; left: 10%;
+      width: 80%; height: 30px;
+      background: radial-gradient(ellipse, rgba(125,7,242,0.3) 0%, transparent 70%);
+      border-radius: 50%; z-index: 1;
+      animation: shadowPulse 4s ease-in-out infinite;
+    }
+    @keyframes shadowPulse { 0%,100%{transform:scaleX(1);opacity:0.6;}50%{transform:scaleX(0.85);opacity:0.3;} }
+
+    .hero-cta-group { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 0; }
+    .hero-members { display: flex; align-items: center; gap: 8px; font-size: clamp(12px,3vw,14px); color: rgba(232,213,255,0.8); font-weight: 500; }
+    .hero-members .dot { width: 8px; height: 8px; background: #25D366; border-radius: 50%; animation: dotBlink 1.5s ease-in-out infinite; }
+    @keyframes dotBlink { 0%,100%{opacity:1;}50%{opacity:0.3;} }
+
+    /* ===== CAMPOS ===== */
+    #campos {
+      background: linear-gradient(180deg, var(--purple-dark) 0%, var(--purple-mid) 50%, var(--purple-dark) 100%);
+    }
+    .campos-header { text-align: center; margin-bottom: clamp(32px,6vw,56px); }
+    .campos-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 768px) { .campos-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+    .campo-card {
+      text-align: center;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(125,7,242,0.1);
+      color: var(--text-on-light);
+    }
+    .campo-card .card-image {
+      width: 100%; border-radius: 16px; margin-bottom: 20px;
+      aspect-ratio: 4/3; object-fit: cover; object-position: center top;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .campo-card:hover .card-image { transform: scale(1.03); }
+    .campo-card .card-icon { font-size: 28px; margin-bottom: 8px; }
+    .campo-card h3 { font-size: clamp(18px,4.5vw,22px); font-weight: 700; margin-bottom: 8px; }
+    .campo-card p { font-size: clamp(13px,3.2vw,15px); color: var(--text-on-light-soft); line-height: 1.5; }
+
+    /* Marquee */
+    .marquee-wrapper {
+      overflow: hidden; width: 100%; margin-top: clamp(24px,4vw,40px);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    }
+    .marquee-track { display: flex; gap: 16px; animation: marquee 25s linear infinite; width: max-content; }
+    .marquee-item {
+      flex-shrink: 0; padding: 10px 22px; border-radius: 50px;
+      font-size: clamp(12px,3vw,14px); font-weight: 600;
+      background: rgba(168,85,247,0.12); color: var(--purple-glow);
+      white-space: nowrap; border: 1px solid rgba(168,85,247,0.2);
+    }
+    @keyframes marquee { 0%{transform:translateX(0);}100%{transform:translateX(-50%);} }
+
+    /* ===== DISEÑA Y CREA ===== */
+    #disena {
+      background: var(--off-white);
+      color: var(--text-on-light);
+      padding: 0;
+    }
+    .disena-hero-image {
+      position: relative;
+      width: 100%;
+      min-height: 60vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .disena-hero-image img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      z-index: 1;
+    }
+    .disena-hero-image::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,6,53,0.9) 0%, rgba(26,6,53,0.6) 40%, rgba(0,0,0,0.1) 100%);
+      z-index: 2;
+    }
+    .disena-hero-text {
+      position: relative; z-index: 3;
+      padding: clamp(32px,6vw,60px) var(--container-width);
+      padding-left: clamp(24px, 5vw, 60px);
+      padding-right: clamp(24px, 5vw, 60px);
+      width: 100%;
+    }
+    .disena-hero-text .section-badge-light {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.25);
+      color: var(--white);
+    }
+    .disena-hero-text .section-title {
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .disena-hero-text .gradient-line { margin: 16px 0; }
+
+    .disena-content-below {
+      padding: clamp(40px,6vw,80px) clamp(24px, 5vw, 60px);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .check-list li { display: flex; align-items: flex-start; gap: 14px; font-size: clamp(14px,3.5vw,17px); line-height: 1.5; color: var(--text-on-light); }
+    .check-list .check-icon {
+      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--gradient-purple); display: flex; align-items: center; justify-content: center; margin-top: 1px;
+    }
+    .check-list .check-icon svg { width: 14px; height: 14px; fill: white; }
+
+    /* ===== PRODUCTOS ===== */
+    #productos {
+      background: linear-gradient(180deg, var(--purple-dark) 0%, #1f0445 100%);
+    }
+    .productos-header { text-align: center; margin-bottom: clamp(32px,6vw,48px); }
+    .productos-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .productos-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+
+    .producto-item { text-align: center; padding: clamp(28px,5vw,40px) clamp(20px,4vw,28px); }
+    .producto-item .prod-icon {
+      width: 64px; height: 64px; border-radius: 18px;
+      background: rgba(168,85,247,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; font-size: 28px;
+      border: 1px solid rgba(168,85,247,0.2);
+    }
+    .producto-item h3 { font-size: clamp(16px,4vw,19px); font-weight: 700; margin-bottom: 8px; }
+    .producto-item p { font-size: clamp(13px,3.2vw,15px); color: var(--text-on-dark-soft); line-height: 1.5; }
+
+    /* ===== HERRAMIENTAS ===== */
+    #herramientas {
+      background: linear-gradient(180deg, #0a0118 0%, var(--purple-deep) 50%, #0a0118 100%);
+      color: var(--white);
+    }
+    #herramientas::before {
+      content: ''; position: absolute; top: -200px; left: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(125,7,242,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    #herramientas::after {
+      content: ''; position: absolute; bottom: -200px; right: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,80,192,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .herramientas-header { text-align: center; margin-bottom: clamp(36px,7vw,56px); }
+    .herramientas-header .section-title { color: var(--white); }
+    .herramientas-header .section-subtitle { color: var(--text-on-dark-soft); }
+
+    .counter-row { display: flex; justify-content: center; align-items: center; gap: clamp(12px,4vw,32px); margin-bottom: clamp(36px,7vw,56px); flex-wrap: wrap; }
+    .counter-box {
+      text-align: center; padding: clamp(16px,3vw,24px) clamp(20px,4vw,40px);
+      background: rgba(125,7,242,0.1); border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .counter-number { font-size: clamp(36px,9vw,56px); font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .counter-label { font-size: clamp(11px,2.8vw,14px); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-on-dark-soft); font-weight: 500; }
+    .counter-arrow { font-size: clamp(24px,6vw,36px); color: var(--turquoise); }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; max-width: 600px; margin: 0 auto; }
+    @media (min-width: 600px) { .tools-grid { grid-template-columns: repeat(4,1fr); } }
+    .tool-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: clamp(16px,3vw,24px); background: rgba(125,7,242,0.08);
+      border: 1px solid rgba(168,85,247,0.15); border-radius: 16px;
+      text-align: center; transition: transform 0.3s, background 0.3s;
+    }
+    .tool-badge:hover { transform: translateY(-4px); background: rgba(125,7,242,0.18); }
+    .tool-badge .tool-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700; color: var(--white);
+      overflow: hidden;
+    }
+    .tool-badge .tool-icon img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+
+    /* Counter highlight for 'Horas con IA' */
+    .counter-box-highlight {
+      background: rgba(37,211,102,0.12) !important;
+      border-color: rgba(37,211,102,0.4) !important;
+      box-shadow: 0 0 30px rgba(37,211,102,0.2), 0 0 60px rgba(7,217,196,0.1);
+      animation: highlightPulse 2.5s ease-in-out infinite;
+    }
+    .counter-box-highlight .counter-label {
+      color: #25D366 !important;
+      font-weight: 700;
+    }
+    @keyframes highlightPulse {
+      0%,100% { box-shadow: 0 0 30px rgba(37,211,102,0.2), 0 0 60px rgba(7,217,196,0.1); }
+      50% { box-shadow: 0 0 50px rgba(37,211,102,0.35), 0 0 90px rgba(7,217,196,0.2); }
+    }
+    .tool-badge .tool-name { font-size: clamp(12px,3vw,14px); font-weight: 600; color: var(--text-on-dark); }
+    .herramientas-cta { text-align: center; margin-top: clamp(36px,7vw,56px); }
+
+    /* ===== CAPACIDADES ===== */
+    #capacidades { background: var(--off-white); color: var(--text-on-light); }
+    .capacidades-layout { display: flex; flex-direction: column; gap: clamp(32px,6vw,56px); }
+    @media (min-width: 768px) { .capacidades-layout { flex-direction: row; align-items: center; } }
+    .capacidades-image { flex: 1.2; }
+    .capacidades-image img { width: 100%; border-radius: 20px; box-shadow: 0 16px 48px rgba(125,7,242,0.1); }
+    .capacidades-content { flex: 1; }
+    .capacidades-content .section-title { color: var(--text-on-light); }
+    .capacidades-content .section-subtitle { color: var(--text-on-light-soft); }
+
+    .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .cap-item {
+      padding: clamp(16px,3vw,22px); border-radius: 16px;
+      background: var(--white); border: 1px solid rgba(125,7,242,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .cap-item:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(125,7,242,0.1); }
+    .cap-item .cap-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+    .cap-item h4 { font-size: clamp(13px,3.2vw,15px); font-weight: 700; line-height: 1.3; color: var(--text-on-light); }
+
+    /* ===== COMUNIDAD ===== */
+    #comunidad {
+      background: linear-gradient(180deg, var(--purple-mid) 0%, var(--purple-dark) 100%);
+    }
+    .comunidad-header { text-align: center; margin-bottom: clamp(32px,6vw,48px); }
+    .comunidad-features { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 800px; margin: 0 auto; }
+    @media (min-width: 600px) { .comunidad-features { grid-template-columns: repeat(2,1fr); } }
+
+    .comunidad-feature { display: flex; align-items: flex-start; gap: 16px; padding: clamp(20px,4vw,28px); }
+    .comunidad-feature .feature-icon {
+      flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(168,85,247,0.2);
+      border: 1px solid rgba(168,85,247,0.25);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .comunidad-feature h4 { font-size: clamp(15px,3.8vw,17px); font-weight: 700; margin-bottom: 4px; color: var(--white); }
+    .comunidad-feature p { font-size: clamp(13px,3.2vw,15px); color: var(--text-on-dark-soft); line-height: 1.5; }
+    .comunidad-cta { text-align: center; margin-top: clamp(32px,6vw,48px); }
+
+    /* ===== CTA FINAL ===== */
+    #cta-final {
+      background: linear-gradient(180deg, var(--purple-deep) 0%, #0a0118 30%, var(--purple-mid) 70%, var(--purple-dark) 100%);
+      color: var(--white); text-align: center;
+      padding: clamp(60px,10vh,100px) 0 clamp(80px,15vh,140px);
+    }
+    #cta-final::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 30%, rgba(125,7,242,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 70%, rgba(200,80,192,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 50%, rgba(7,217,196,0.08) 0%, transparent 60%);
+    }
+    .cta-robot-wrapper {
+      width: clamp(360px,80vw,600px); margin: 0 auto 24px; position: relative;
+      transition: transform 0.1s linear;
+    }
+    .cta-robot-wrapper img { width: 100%; position: relative; z-index: 2; }
+    .cta-robot-wrapper::before {
+      content: ''; position: absolute; inset: -25%;
+      background: radial-gradient(circle, rgba(125,7,242,0.3) 0%, rgba(200,80,192,0.15) 40%, transparent 70%);
+      border-radius: 50%; z-index: 1; animation: ctaGlow 3s ease-in-out infinite;
+    }
+    @keyframes ctaGlow { 0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:1;transform:scale(1.08);} }
+
+    .cta-title {
+      font-size: clamp(30px,8vw,56px); font-weight: 900;
+      line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 16px;
+      color: var(--white); position: relative; z-index: 2;
+    }
+    .cta-subtitle {
+      font-size: clamp(15px,3.8vw,19px); color: var(--text-on-dark-soft);
+      margin-bottom: 32px; max-width: 450px; margin-left: auto; margin-right: auto;
+      position: relative; z-index: 2;
+    }
+    .cta-btn-wrapper { position: relative; z-index: 2; }
+    .cta-btn-wrapper .btn-whatsapp {
+      padding: 20px 48px; font-size: clamp(17px,4.5vw,21px);
+      box-shadow: 0 8px 40px rgba(37,211,102,0.45);
+      animation: ctaBtnPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes ctaBtnPulse {
+      0%,100%{box-shadow:0 8px 40px rgba(37,211,102,0.45);}
+      50%{box-shadow:0 8px 60px rgba(37,211,102,0.7), 0 0 80px rgba(37,211,102,0.2);}
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--purple-deep); color: var(--text-on-dark-soft);
+      text-align: center; padding: 24px 0; font-size: 13px;
+      border-top: 1px solid rgba(168,85,247,0.1);
+    }
+    footer a { color: var(--turquoise); transition: opacity 0.3s; }
+    footer a:hover { opacity: 0.7; }
+
+    /* ===== LOADER ===== */
+    .page-loader {
+      position: fixed; inset: 0; background: var(--purple-deep); z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.6s, visibility 0.6s;
+    }
+    .page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-spinner {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 4px solid rgba(168,85,247,0.15);
+      border-top-color: var(--purple-vivid);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* === ORYZO-STYLE RGB EDGE GLOW === */
+    .edge-glow {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1;
+      opacity: 0; transition: opacity 0.8s ease;
+    }
+    .edge-glow.active { opacity: 1; }
+    .edge-glow.flash { opacity: 1; transition: opacity 0.15s ease; }
+    .edge-glow-top {
+      position: absolute; top: -60%; left: 20%; width: 60%; height: 70%;
+      background: radial-gradient(ellipse at center, rgba(255,180,0,0.35) 0%, rgba(255,100,0,0.15) 40%, transparent 70%);
+      filter: blur(60px);
+    }
+    .edge-glow-right {
+      position: absolute; top: -10%; right: -20%; width: 45%; height: 60%;
+      background: radial-gradient(ellipse at center, rgba(255,60,60,0.35) 0%, rgba(255,120,0,0.15) 50%, transparent 75%);
+      filter: blur(70px);
+    }
+    .edge-glow-bottom {
+      position: absolute; bottom: -50%; left: 15%; width: 70%; height: 65%;
+      background: radial-gradient(ellipse at center, rgba(0,230,200,0.35) 0%, rgba(0,180,255,0.15) 50%, transparent 75%);
+      filter: blur(60px);
+    }
+    .edge-glow-left {
+      position: absolute; top: 20%; left: -25%; width: 45%; height: 70%;
+      background: radial-gradient(ellipse at center, rgba(255,0,80,0.3) 0%, rgba(200,0,150,0.15) 50%, transparent 75%);
+      filter: blur(70px);
+    }
+
+    @media (max-width: 480px) {
+      :root { --section-padding: 48px; }
+      .hero-title { font-size: clamp(28px, 8vw, 40px); }
+      .hero-robot-wrapper { width: clamp(280px, 85vw, 420px); }
+      .cta-robot-wrapper { width: clamp(300px, 85vw, 450px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div class="page-loader" id="page-loader"><div class="loader-spinner"></div></div>
+
+  <!-- PARTICLES -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- SCROLL EDGE GLOW LIGHTS -->
+  <div class="edge-glow" id="edge-glow">
+    <div class="edge-glow-top"></div>
+    <div class="edge-glow-right"></div>
+    <div class="edge-glow-bottom"></div>
+    <div class="edge-glow-left"></div>
+  </div>
+
+  <!-- FLOATING WHATSAPP — FULL PILL BUTTON WITH SHIMMER -->
+  <a id="floating-whatsapp" href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" aria-label="Unirse al grupo de WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>Unirme al Grupo</span>
+  </a>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="container">
+      <div class="cupos-banner reveal">🔥 ¡Cupos limitados!</div>
+      <div class="section-badge hero-badge reveal">
+        <span style="width:8px;height:8px;background:#25D366;border-radius:50%;display:inline-block;"></span>
+        +500 profesionales ya están dentro
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        Únete a la Comunidad de <span class="gradient-text">IA Aplicada al Medio Ambiente</span>
+      </h1>
+      <p class="hero-subtitle reveal reveal-delay-2">
+        Aprende a usar Inteligencia Artificial para transformar la gestión ambiental. De la idea a la realidad.
+      </p>
+      <div class="hero-robot-wrapper robot-float robot-glow reveal-scale reveal-delay-3">
+        <img src="MODELOS DE IMÁGENES/1.png" alt="Robot Equilibria - Asistente IA Ambiental" width="600" height="600" loading="eager">
+      </div>
+      <div class="hero-cta-group reveal reveal-delay-4">
+        <a href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" class="btn-whatsapp">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Únete Gratis al Grupo
+        </a>
+        <div class="hero-members"><span class="dot"></span> Comunidad activa — 100% gratuita</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== CAMPOS ===== -->
+  <section id="campos">
+    <div class="container">
+      <div class="campos-header">
+        <div class="section-badge reveal">🌍 Campos de Aplicación</div>
+        <div class="gradient-line reveal reveal-delay-1"></div>
+        <h2 class="section-title reveal reveal-delay-1">Aplica la IA en <span class="gradient-text">Diversos Campos</span></h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="max-width:550px;margin:16px auto 0;">Transforma la gestión ambiental con inteligencia artificial en los sectores que más impactan.</p>
+      </div>
+      <div class="campos-grid">
+        <div class="glass-card campo-card reveal reveal-delay-1">
+          <img class="card-image" src="MODELOS DE IMÁGENES/3.png" alt="Residuos Sólidos" loading="lazy" width="600" height="450">
+          <div class="card-icon">🗑️</div>
+          <h3 class="gradient-text">Residuos Sólidos</h3>
+          <p>Gestión inteligente de residuos para un ambiente más sostenible. Optimiza procesos con IA.</p>
+        </div>
+        <div class="glass-card campo-card reveal reveal-delay-2">
+          <img class="card-image" src="MODELOS DE IMÁGENES/4.png" alt="Monitoreo Ambiental" loading="lazy" width="600" height="450">
+          <div class="card-icon">📊</div>
+          <h3 class="gradient-text">Monitoreo Ambiental</h3>
+          <p>Datos confiables para decisiones inteligentes. Monitorea agua, aire, suelo y más.</p>
+        </div>
+        <div class="glass-card campo-card reveal reveal-delay-3">
+          <img class="card-image" src="MODELOS DE IMÁGENES/5.png" alt="Fiscalización Ambiental" loading="lazy" width="600" height="450">
+          <div class="card-icon">⚖️</div>
+          <h3 class="gradient-text">Fiscalización Ambiental</h3>
+          <p>Cumplimiento ambiental, prevención y protección del entorno con herramientas de IA.</p>
+        </div>
+      </div>
+      <div class="marquee-wrapper reveal reveal-delay-3">
+        <div class="marquee-track">
+          <span class="marquee-item">⛏️ Minería</span><span class="marquee-item">🏭 Industria</span><span class="marquee-item">🎓 Educación</span><span class="marquee-item">🌾 Agricultura</span><span class="marquee-item">🛢️ Hidrocarburos</span><span class="marquee-item">🚰 Saneamiento</span><span class="marquee-item">🏗️ Construcción</span><span class="marquee-item">🏖️ Turismo</span><span class="marquee-item">⚡ Energía</span><span class="marquee-item">🚛 Transporte</span><span class="marquee-item">🐟 Pesca</span><span class="marquee-item">🏥 Salud</span>
+          <span class="marquee-item">⛏️ Minería</span><span class="marquee-item">🏭 Industria</span><span class="marquee-item">🎓 Educación</span><span class="marquee-item">🌾 Agricultura</span><span class="marquee-item">🛢️ Hidrocarburos</span><span class="marquee-item">🚰 Saneamiento</span><span class="marquee-item">🏗️ Construcción</span><span class="marquee-item">🏖️ Turismo</span><span class="marquee-item">⚡ Energía</span><span class="marquee-item">🚛 Transporte</span><span class="marquee-item">🐟 Pesca</span><span class="marquee-item">🏥 Salud</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DISEÑA Y CREA ===== -->
+  <section id="disena">
+    <div class="disena-hero-image">
+      <img src="MODELOS DE IMÁGENES/10.png" alt="Robot Equilibria con laptop" loading="lazy" width="600" height="600">
+      <div class="disena-hero-text">
+        <div class="section-badge section-badge-light reveal">💡 Crea con IA</div>
+        <div class="gradient-line reveal reveal-delay-1"></div>
+        <h2 class="section-title reveal reveal-delay-1">Diseña tus Ideas y <span class="gradient-text">Vuélvelas Realidad</span></h2>
+      </div>
+    </div>
+    <div class="disena-content-below">
+      <ul class="check-list">
+        <li class="reveal reveal-delay-2">
+          <span class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>
+          <span><strong>Análisis de documentos técnicos</strong> — Procesa y extrae información clave de EIAs, planes y normativas al instante.</span>
+        </li>
+        <li class="reveal reveal-delay-3">
+          <span class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>
+          <span><strong>Aplicaciones ambientales con IA</strong> — Crea herramientas digitales para web y móvil sin ser programador.</span>
+        </li>
+        <li class="reveal reveal-delay-4">
+          <span class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>
+          <span><strong>Sistematización de normas</strong> — Organiza y consulta la legislación ambiental de forma inteligente.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTOS ===== -->
+  <section id="productos">
+    <div class="container">
+      <div class="productos-header">
+        <div class="section-badge reveal">📦 Resultados Tangibles</div>
+        <div class="gradient-line reveal reveal-delay-1"></div>
+        <h2 class="section-title reveal reveal-delay-1">Crea <span class="gradient-text">Productos Útiles</span> para tus Actividades</h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="max-width:520px;margin:16px auto 0;">Deja de empezar de cero. Genera documentos profesionales en minutos.</p>
+      </div>
+      <div class="productos-grid">
+        <div class="glass-card producto-item reveal reveal-delay-1">
+          <div class="prod-icon">📋</div>
+          <h3>Matrices Ambientales</h3>
+          <p>Matrices de identificación de impactos, evaluación y seguimiento ambiental automatizadas.</p>
+        </div>
+        <div class="glass-card producto-item reveal reveal-delay-2">
+          <div class="prod-icon">📑</div>
+          <h3>Fichas de Obligaciones</h3>
+          <p>Fichas de cumplimiento ambiental organizadas, actualizadas y listas para fiscalización.</p>
+        </div>
+        <div class="glass-card producto-item reveal reveal-delay-3">
+          <div class="prod-icon">♻️</div>
+          <h3>Planes de Manejo de Residuos</h3>
+          <p>Planes completos de gestión de residuos sólidos generados con asistencia de IA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HERRAMIENTAS ===== -->
+  <section id="herramientas">
+    <div class="container">
+      <div class="herramientas-header">
+        <div class="section-badge reveal" style="border-color:rgba(168,85,247,0.25);color:var(--turquoise);">⚡ Ahorra Tiempo</div>
+        <div class="gradient-line reveal reveal-delay-1"></div>
+        <h2 class="section-title reveal reveal-delay-1">Ahorra <span class="gradient-text">Días de Trabajo</span></h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="max-width:500px;margin:16px auto 0;">Domina las herramientas de IA más poderosas del mercado y multiplica tu productividad.</p>
+      </div>
+      <div class="counter-row reveal reveal-delay-2">
+        <div class="counter-box">
+          <div class="counter-number gradient-text" data-target="5">0</div>
+          <div class="counter-label">Días antes</div>
+        </div>
+        <div class="counter-arrow">→</div>
+        <div class="counter-box counter-box-highlight">
+          <div class="counter-number" style="color:#25D366;" data-target="5">0</div>
+          <div class="counter-label">Horas con IA ⚡</div>
+        </div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-badge reveal reveal-delay-1">
+          <div class="tool-icon"><img src="LOGOS DE LAS IA/claude-ai-icon.webp" alt="Claude AI" loading="lazy"></div>
+          <span class="tool-name">Claude</span>
+        </div>
+        <div class="tool-badge reveal reveal-delay-2">
+          <div class="tool-icon"><img src="LOGOS DE LAS IA/chatgtp-ai-icon.png" alt="ChatGPT" loading="lazy"></div>
+          <span class="tool-name">ChatGPT</span>
+        </div>
+        <div class="tool-badge reveal reveal-delay-3">
+          <div class="tool-icon"><img src="LOGOS DE LAS IA/gemini-ai-icon.png" alt="Gemini AI" loading="lazy"></div>
+          <span class="tool-name">Gemini</span>
+        </div>
+        <div class="tool-badge reveal reveal-delay-4">
+          <div class="tool-icon"><img src="LOGOS DE LAS IA/notebookLM-ai-icon.png" alt="NotebookLM" loading="lazy"></div>
+          <span class="tool-name">NotebookLM</span>
+        </div>
+      </div>
+      <div class="herramientas-cta reveal reveal-delay-4">
+        <a href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" class="btn-whatsapp">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Aprende con Nosotros
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CAPACIDADES ===== -->
+  <section id="capacidades">
+    <div class="container">
+      <div class="capacidades-layout">
+        <div class="capacidades-content">
+          <div class="section-badge section-badge-light reveal">🎨 Habilidades</div>
+          <div class="gradient-line reveal reveal-delay-1" style="margin:16px 0;"></div>
+          <h2 class="section-title reveal reveal-delay-1">Todo lo que <span class="gradient-text">Podrás Hacer</span></h2>
+          <p class="section-subtitle reveal reveal-delay-2" style="margin-top:12px;">Analiza, crea, diseña y automatiza. Sin límites.</p>
+          <div class="cap-grid">
+            <div class="cap-item reveal reveal-delay-2"><span class="cap-emoji">📄</span><h4>Analiza documentos técnicos</h4></div>
+            <div class="cap-item reveal reveal-delay-3"><span class="cap-emoji">🎤</span><h4>Crea presentaciones impactantes</h4></div>
+            <div class="cap-item reveal reveal-delay-3"><span class="cap-emoji">🖼️</span><h4>Elabora imágenes y videos</h4></div>
+            <div class="cap-item reveal reveal-delay-4"><span class="cap-emoji">💻</span><h4>Diseña apps para web y móvil</h4></div>
+          </div>
+        </div>
+        <div class="capacidades-image reveal-right">
+          <img src="MODELOS DE IMÁGENES/14 agentes.png" alt="Agentes de IA para gestión ambiental" loading="lazy" width="800" height="600">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMUNIDAD ===== -->
+  <section id="comunidad">
+    <div class="container">
+      <div class="comunidad-header">
+        <div class="section-badge reveal">🤝 Comunidad</div>
+        <div class="gradient-line reveal reveal-delay-1"></div>
+        <h2 class="section-title reveal reveal-delay-1">Soporte como <span class="gradient-text">Comunidad</span></h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="max-width:520px;margin:16px auto 0;">No estarás solo. Una comunidad activa de profesionales ambientales impulsados por IA.</p>
+      </div>
+      <div class="comunidad-features">
+        <div class="glass-card comunidad-feature reveal reveal-delay-1"><div class="feature-icon">💬</div><div><h4>Debate Ideas</h4><p>Comparte y discute enfoques innovadores con otros profesionales ambientales.</p></div></div>
+        <div class="glass-card comunidad-feature reveal reveal-delay-2"><div class="feature-icon">📚</div><div><h4>Comparte Información</h4><p>Accede a recursos, guías y material exclusivo generado por la comunidad.</p></div></div>
+        <div class="glass-card comunidad-feature reveal reveal-delay-3"><div class="feature-icon">❓</div><div><h4>Absuelve Consultas</h4><p>Resuelve tus dudas con el apoyo de expertos y compañeros del sector.</p></div></div>
+        <div class="glass-card comunidad-feature reveal reveal-delay-4"><div class="feature-icon">🏆</div><div><h4>Publica tus Trabajos</h4><p>Muestra tus proyectos y accede a todo el material generado por la comunidad.</p></div></div>
+      </div>
+      <div class="comunidad-cta reveal reveal-delay-4">
+        <a href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" class="btn-cta-gradient">Quiero Ser Parte →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA FINAL ===== -->
+  <section id="cta-final">
+    <div class="container">
+      <div class="cta-robot-wrapper robot-glow reveal-scale" id="cta-robot">
+        <img src="MODELOS DE IMÁGENES/9.png" alt="Robot Equilibria saludando" loading="lazy" width="600" height="600">
+      </div>
+      <div class="cupos-banner reveal" style="margin-bottom:24px;">🔥 ¡Cupos limitados!</div>
+      <h2 class="cta-title reveal reveal-delay-1">Cambiemos Juntos Nuestro <span class="gradient-text">ADN Ambiental</span></h2>
+      <p class="cta-subtitle reveal reveal-delay-2">Pasa de la idea a la realidad. Únete a la comunidad que está transformando el medio ambiente con inteligencia artificial.</p>
+      <div class="cta-btn-wrapper reveal reveal-delay-3">
+        <a href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" class="btn-whatsapp">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          ¡Únete Ahora — Es Gratis!
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container"><p>Hecho con 💜 por <a href="https://www.equilibriaconsulting.com" target="_blank" rel="noopener">Equilibria Consulting</a> &copy; 2025</p></div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    window.addEventListener('load', () => { setTimeout(() => { document.getElementById('page-loader').classList.add('hidden'); }, 600); });
+
+    // Scroll Reveal
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // Counter
+    document.querySelectorAll('.counter-number[data-target]').forEach(el => {
+      new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const t = parseInt(el.getAttribute('data-target')); let c = 0; const inc = t / 40;
+            const timer = setInterval(() => { c += inc; if (c >= t) { el.textContent = t; clearInterval(timer); } else { el.textContent = Math.floor(c); } }, 40);
+            obs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.5 }).observe(el);
+    });
+
+    // Particles
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [], animId;
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    const colors = ['rgba(125,7,242,0.2)','rgba(168,85,247,0.18)','rgba(200,80,192,0.15)','rgba(7,217,196,0.12)','rgba(65,131,217,0.12)'];
+    function createP() {
+      const n = Math.min(Math.floor(window.innerWidth / 25), 45);
+      particles = [];
+      for (let i = 0; i < n; i++) particles.push({
+        x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+        r: Math.random()*2.5+0.8, dx: (Math.random()-0.5)*0.35, dy: (Math.random()-0.5)*0.25,
+        color: colors[Math.floor(Math.random()*colors.length)]
+      });
+    }
+    createP();
+
+    function animP() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle = p.color; ctx.fill();
+      });
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i+1; j < particles.length; j++) {
+          const dx = particles[i].x-particles[j].x, dy = particles[i].y-particles[j].y;
+          const d = Math.sqrt(dx*dx+dy*dy);
+          if (d < 120) { ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle = `rgba(168,85,247,${0.05*(1-d/120)})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+        }
+      }
+      animId = requestAnimationFrame(animP);
+    }
+    animP();
+    document.addEventListener('visibilitychange', () => { document.hidden ? cancelAnimationFrame(animId) : animP(); });
+
+    // Edge glow + parallax + hero robot fly-away + CTA robot zoom
+    const edgeGlow = document.getElementById('edge-glow');
+    const ctaRobot = document.getElementById('cta-robot');
+    const heroRobot = document.querySelector('.hero-robot-wrapper');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(() => {
+        const s = window.scrollY;
+        const vh = window.innerHeight;
+
+        // Hero robot fly-away effect: moves up, scales, rotates, and fades as you scroll
+        if (heroRobot && s < vh * 1.2) {
+          const progress = s / (vh * 0.7); // 0 to ~1.5
+          const moveY = -s * 0.6;
+          const moveX = s * 0.15;
+          const rot = Math.min(progress * 8, 15);
+          const sc = 1 + progress * 0.15;
+          const op = Math.max(1 - progress * 1.2, 0);
+          heroRobot.style.transform = `translateY(${moveY}px) translateX(${moveX}px) rotate(${rot}deg) scale(${sc})`;
+          heroRobot.style.opacity = op;
+        }
+
+        // Edge glow lights activate after hero
+        if (s > vh * 0.3) {
+          edgeGlow.classList.add('active');
+        } else {
+          edgeGlow.classList.remove('active');
+        }
+
+        // CTA robot zoom-fly effect on scroll
+        if (ctaRobot) {
+          const rect = ctaRobot.getBoundingClientRect();
+          if (rect.top < vh && rect.bottom > 0) {
+            const progress = 1 - (rect.top / vh);
+            const scale = 0.7 + Math.min(progress, 1) * 0.3;
+            const translateY = (1 - Math.min(progress, 1)) * 60;
+            ctaRobot.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+          }
+        }
+
+        ticking = false;
+      }); ticking = true; }
+    });
+
+    // === ORYZO-STYLE RGB EDGE GLOW ON SCROLL & CLICK ===
+    let glowTimeout;
+    function flashEdgeGlow() {
+      edgeGlow.classList.add('flash');
+      edgeGlow.classList.add('active');
+      clearTimeout(glowTimeout);
+      glowTimeout = setTimeout(() => {
+        edgeGlow.classList.remove('flash');
+        // Keep active if scrolled past hero, otherwise remove
+        if (window.scrollY <= window.innerHeight * 0.3) {
+          edgeGlow.classList.remove('active');
+        }
+      }, 800);
+    }
+    // Trigger on click/tap
+    document.addEventListener('click', flashEdgeGlow);
+    document.addEventListener('touchstart', flashEdgeGlow, { passive: true });
+  </script>
+</body>
+</html>
