@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0221">
+  <meta name="description" content="Comunidad gratuita de Inteligencia Artificial aplicada al medio ambiente de Equilibria Consulting.">
+  <meta property="og:title" content="Comunidad IA Ambiental — Equilibria Consulting">
+  <meta property="og:description" content="Aprende, crea y transforma la gestión ambiental con inteligencia artificial.">
+  <meta property="og:type" content="website">
+  <title>Comunidad IA Ambiental — Equilibria Consulting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #050109;
+      --ink-2: #0d0221;
+      --purple: #7d07f2;
+      --violet: #a855f7;
+      --magenta: #c850c0;
+      --cyan: #07d9c4;
+      --blue: #4183d9;
+      --white: #fff;
+      --soft-white: rgba(255,255,255,.78);
+      --glass: rgba(255,255,255,.035);
+      --glass-strong: rgba(18,5,39,.34);
+      --body: "Barlow", sans-serif;
+      --display: "Instrument Serif", serif;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--ink); }
+    body { margin: 0; min-width: 320px; overflow-x: hidden; color: var(--white); background: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img, video { display: block; max-width: 100%; }
+    ::selection { color: #09010e; background: var(--cyan); }
+
+    .skip-link { position: fixed; z-index: 200; top: 8px; left: 8px; padding: 10px 14px; color: #050109; background: #fff; border-radius: 999px; transform: translateY(-150%); }
+    .skip-link:focus { transform: translateY(0); }
+
+    .edge-frame { position: fixed; inset: 0; z-index: 90; pointer-events: none; border: 1px solid rgba(255,255,255,.08); box-shadow: inset 0 0 22px rgba(125,7,242,.28); }
+    .edge-frame::before { content: ""; position: absolute; inset: 0; padding: 2px; background: linear-gradient(105deg, var(--magenta), var(--purple) 24%, transparent 43%, transparent 58%, var(--cyan) 79%, var(--blue)); opacity: .72; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+    .edge-frame::after { content: ""; position: absolute; inset: -30px; background: conic-gradient(from 180deg at 50% 50%, var(--purple), var(--cyan), var(--magenta), var(--blue), var(--purple)); filter: blur(46px); opacity: .16; animation: aura 9s linear infinite; }
+    @keyframes aura { to { transform: rotate(1turn); } }
+
+    .liquid-glass,
+    .liquid-glass-strong {
+      position: relative;
+      overflow: hidden;
+      background: var(--glass);
+      background-blend-mode: luminosity;
+      border: 0;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.13), 0 16px 50px rgba(0,0,0,.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .liquid-glass::before,
+    .liquid-glass-strong::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.2px; background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.12) 23%, transparent 42%, transparent 60%, rgba(7,217,196,.15) 82%, rgba(168,85,247,.52)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .liquid-glass-strong { background: rgba(38,8,77,.2); box-shadow: 0 16px 45px rgba(125,7,242,.24), inset 0 1px 1px rgba(255,255,255,.18); backdrop-filter: blur(34px); -webkit-backdrop-filter: blur(34px); }
+
+    .nav-wrap { position: fixed; z-index: 100; top: 18px; left: 0; width: 100%; padding: 0 clamp(16px, 4vw, 64px); }
+    .nav { width: min(100%, 1260px); height: 58px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 6px 7px 6px 18px; border-radius: 999px; transition: background .35s ease, transform .35s ease; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; width: max-content; font-weight: 600; letter-spacing: .14em; font-size: .78rem; }
+    .brand-mark { width: 30px; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(from 210deg, var(--cyan), var(--blue), var(--purple), var(--magenta), var(--cyan)); box-shadow: 0 0 24px rgba(7,217,196,.35); }
+    .brand-mark::after { content: ""; width: 14px; height: 18px; border-radius: 70% 30% 62% 38%; background: var(--ink); transform: rotate(32deg); }
+    .nav-links { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; }
+    .nav-links a { padding: 9px 13px; border-radius: 999px; font-size: .83rem; color: rgba(255,255,255,.76); transition: color .25s ease, background .25s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: #fff; background: rgba(255,255,255,.08); outline: none; }
+    .nav-cta { justify-self: end; display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 18px; border-radius: 999px; color: #08020d; background: #fff; font-size: .86rem; font-weight: 600; transition: transform .25s ease, box-shadow .25s ease; }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,.18); }
+    .nav-cta svg { width: 16px; }
+    .menu-button { display: none; justify-self: end; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; }
+    .menu-button span, .menu-button::before { content: ""; display: block; width: 17px; height: 1px; margin: 5px auto; background: #fff; transition: transform .25s ease; }
+
+    .scene { position: relative; min-height: 100svh; overflow: hidden; isolation: isolate; }
+    .scene-video { position: absolute; z-index: -3; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; will-change: opacity; }
+    .video-hero { width: 115%; height: 115%; top: -6%; left: -8%; object-position: center 32%; filter: saturate(1.08) contrast(1.02); }
+    .scene-vignette { position: absolute; z-index: -2; inset: 0; pointer-events: none; background: radial-gradient(circle at 65% 44%, transparent 0 22%, rgba(5,1,9,.12) 48%, rgba(5,1,9,.78) 100%); }
+    .scene-grid { position: absolute; z-index: -1; inset: 0; opacity: .08; background-image: linear-gradient(rgba(255,255,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px); background-size: 72px 72px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 74%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 74%, transparent); }
+    .shell { width: min(100% - 40px, 1260px); min-height: inherit; margin: 0 auto; padding: 110px 0 42px; display: flex; flex-direction: column; }
+
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; width: max-content; max-width: 100%; padding: 8px 13px 8px 8px; border-radius: 999px; color: rgba(255,255,255,.87); font-size: clamp(.72rem, 1.2vw, .84rem); letter-spacing: .02em; }
+    .eyebrow b { padding: 5px 9px; border-radius: 999px; color: #08020d; background: #fff; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+    .display { margin: 0; font-family: var(--display); font-weight: 400; font-style: italic; letter-spacing: -.045em; line-height: .82; }
+    .gradient-word { color: transparent; background: linear-gradient(100deg, #fff 5%, #b6fff7 42%, #c084fc 72%, #fff); -webkit-background-clip: text; background-clip: text; }
+    .body-copy { color: var(--soft-white); font-weight: 300; line-height: 1.48; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 20px; border-radius: 999px; font-size: .9rem; font-weight: 500; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+    .button:hover { transform: translateY(-3px); }
+    .button svg { width: 18px; }
+    .button-primary { color: #fff; background: linear-gradient(110deg, rgba(125,7,242,.86), rgba(200,80,192,.72)); box-shadow: 0 14px 40px rgba(125,7,242,.3); }
+    .button-primary:hover { box-shadow: 0 18px 48px rgba(125,7,242,.46); }
+    .button-secondary { color: #fff; background: rgba(255,255,255,.06); }
+
+    .hero-content { width: min(900px, 90%); margin: auto auto 0; padding-top: 64px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .hero-title { max-width: 880px; margin-top: 20px; font-size: clamp(4rem, 9.2vw, 8.4rem); text-shadow: 0 4px 50px rgba(0,0,0,.5); }
+    .hero-copy { max-width: 610px; margin: 24px auto 0; font-size: clamp(.98rem, 1.6vw, 1.18rem); text-shadow: 0 2px 18px rgba(0,0,0,.7); }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+    .hero-proof { width: 100%; margin-top: auto; padding-top: 46px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .proof-card { min-height: 112px; padding: 18px; border-radius: 22px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; }
+    .proof-value { font-family: var(--display); font-style: italic; font-size: clamp(2.1rem, 4vw, 3.4rem); line-height: .8; }
+    .proof-label { color: rgba(255,255,255,.7); font-size: .78rem; }
+
+    .capabilities { background: var(--ink-2); }
+    .capabilities .scene-vignette { background: linear-gradient(90deg, rgba(5,1,9,.86), rgba(5,1,9,.36) 48%, rgba(5,1,9,.74)); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .6fr); gap: 40px; align-items: end; }
+    .section-kicker { margin-bottom: 18px; color: rgba(255,255,255,.72); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+    .section-title { font-size: clamp(3.9rem, 7.6vw, 7.4rem); }
+    .section-lead { max-width: 430px; margin: 0 0 6px auto; font-size: 1.05rem; }
+    .cards { margin-top: auto; padding-top: 54px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .field-card { position: relative; min-height: 360px; padding: 18px; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; transition: transform .4s var(--ease); }
+    .field-card:hover { transform: translateY(-8px); }
+    .field-image { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; filter: saturate(.92) contrast(1.05); transition: transform .8s var(--ease), opacity .4s ease; }
+    .field-card:hover .field-image { transform: scale(1.055); opacity: .68; }
+    .field-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(to bottom, rgba(5,1,9,.05) 15%, rgba(5,1,9,.92) 88%); }
+    .field-number { align-self: flex-end; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; font-family: var(--display); font-style: italic; font-size: 1.1rem; }
+    .field-bottom { margin-top: auto; }
+    .field-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .tag { padding: 5px 9px; border-radius: 999px; color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); font-size: .66rem; }
+    .field-card h3 { margin: 0; font: italic 400 clamp(2rem, 3.2vw, 3rem)/.95 var(--display); }
+    .field-card p { margin: 10px 0 0; color: rgba(255,255,255,.76); font-size: .84rem; line-height: 1.38; }
+
+    .laboratory { background: radial-gradient(circle at 80% 20%, rgba(125,7,242,.21), transparent 32%), radial-gradient(circle at 15% 72%, rgba(7,217,196,.12), transparent 30%), #07010e; }
+    .lab-layout { flex: 1; display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(30px, 5vw, 72px); align-items: center; }
+    .lab-visual { position: relative; min-height: min(68vh, 680px); border-radius: 34px; overflow: hidden; }
+    .lab-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 52% center; }
+    .lab-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,1,9,.72), transparent 40%); }
+    .lab-stamp { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 20px; padding: 15px 18px; border-radius: 18px; display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+    .lab-stamp strong { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+    .lab-stamp span { color: rgba(255,255,255,.68); font-size: .74rem; }
+    .lab-copy .section-title { max-width: 660px; }
+    .lab-copy > .body-copy { max-width: 560px; margin: 22px 0 0; }
+    .outputs { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .output { min-height: 150px; padding: 16px; border-radius: 20px; display: flex; flex-direction: column; }
+    .output-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; color: var(--cyan); background: rgba(7,217,196,.08); font-size: 1.05rem; }
+    .output h3 { margin: auto 0 5px; font-size: .91rem; font-weight: 500; }
+    .output p { margin: 0; color: rgba(255,255,255,.58); font-size: .7rem; line-height: 1.35; }
+    .tool-row { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .tool { min-height: 38px; padding: 5px 12px 5px 6px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,.82); font-size: .75rem; }
+    .tool img { width: 27px; height: 27px; border-radius: 50%; object-fit: cover; background: #fff; }
+
+    .community { background: #050108; }
+    .community .shell { justify-content: center; }
+    .community-art { position: absolute; z-index: -2; inset: 0 0 0 45%; }
+    .community-art img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .72; }
+    .community-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #050108 0%, rgba(5,1,8,.7) 26%, rgba(5,1,8,.04) 70%), linear-gradient(to top, #050108, transparent 35%); }
+    .community-content { width: min(720px, 66%); }
+    .community-title { margin-top: 22px; font-size: clamp(4.3rem, 8vw, 8rem); }
+    .community-copy { max-width: 560px; margin: 24px 0 0; font-size: 1.08rem; }
+    .community-points { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 9px; margin-top: 30px; }
+    .community-point { min-height: 72px; padding: 13px 15px; border-radius: 18px; display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,.84); font-size: .82rem; }
+    .community-point i { width: 30px; height: 30px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; color: var(--cyan); background: rgba(7,217,196,.1); font-style: normal; }
+    .community-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+    .availability { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,.65); font-size: .75rem; }
+    .availability::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #25d366; box-shadow: 0 0 12px #25d366; }
+    .community-footer { position: absolute; right: clamp(20px, 4vw, 64px); bottom: 25px; color: rgba(255,255,255,.48); font-size: .72rem; }
+
+    .reveal { opacity: 0; transform: translateY(26px); filter: blur(10px); transition: opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: none; filter: blur(0); }
+    .reveal[data-delay="1"] { transition-delay: .1s; }
+    .reveal[data-delay="2"] { transition-delay: .2s; }
+    .reveal[data-delay="3"] { transition-delay: .3s; }
+    .blur-word { display: inline-block; margin-right: .18em; opacity: 0; filter: blur(12px); transform: translateY(36px); transition: opacity .7s var(--ease), filter .7s var(--ease), transform .7s var(--ease); }
+    .blur-word.is-visible { opacity: 1; filter: blur(0); transform: none; }
+
+    .whatsapp-float { position: fixed; z-index: 105; right: clamp(16px, 3vw, 34px); bottom: clamp(16px, 3vw, 30px); min-height: 48px; padding: 0 17px 0 7px; border-radius: 999px; display: inline-flex; align-items: center; gap: 9px; color: #fff; background: #25d366; box-shadow: 0 12px 38px rgba(37,211,102,.3); font-size: .8rem; font-weight: 600; transition: transform .25s ease; }
+    .whatsapp-float:hover { transform: translateY(-3px); }
+    .whatsapp-float svg { width: 36px; height: 36px; padding: 8px; border-radius: 50%; background: rgba(0,0,0,.12); fill: #fff; }
+
+    @media (max-width: 900px) {
+      .nav { grid-template-columns: 1fr auto; }
+      .nav-links, .nav-cta { display: none; }
+      .menu-button { display: block; }
+      .nav-links.is-open { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 90px 24px; border-radius: 0; background: rgba(5,1,9,.96); backdrop-filter: blur(26px); }
+      .nav-links.is-open a { width: min(100%, 420px); padding: 14px; text-align: center; font: italic 400 2rem/1 var(--display); }
+      .section-head, .lab-layout { grid-template-columns: 1fr; }
+      .section-lead { margin-left: 0; }
+      .cards { grid-template-columns: 1fr 1fr; }
+      .field-card:last-child { grid-column: 1 / -1; min-height: 300px; }
+      .lab-visual { min-height: 52vh; }
+      .community-content { width: min(680px, 86%); }
+      .community-art { left: 36%; opacity: .6; }
+    }
+
+    @media (max-width: 620px) {
+      .edge-frame { box-shadow: inset 0 0 14px rgba(125,7,242,.26); }
+      .nav-wrap { top: 10px; }
+      .nav { height: 52px; padding-left: 13px; }
+      .brand { font-size: .66rem; }
+      .shell { width: min(100% - 28px, 1260px); padding-top: 84px; padding-bottom: 28px; }
+      .hero-content { width: 100%; padding-top: 54px; }
+      .hero-title { font-size: clamp(3.45rem, 18vw, 5.2rem); }
+      .hero-copy { max-width: 92%; font-size: .94rem; }
+      .button { min-height: 47px; }
+      .hero-proof { gap: 7px; padding-top: 34px; }
+      .proof-card { min-height: 92px; padding: 12px; border-radius: 17px; }
+      .proof-label { font-size: .63rem; }
+      .section-title { font-size: clamp(3.55rem, 17vw, 5rem); }
+      .cards { grid-template-columns: 1fr; padding-top: 32px; }
+      .field-card, .field-card:last-child { grid-column: auto; min-height: 320px; }
+      .outputs { grid-template-columns: 1fr; }
+      .output { min-height: 104px; }
+      .lab-visual { min-height: 48vh; border-radius: 26px; }
+      .lab-layout { align-content: center; }
+      .community-art { inset: 0; opacity: .32; }
+      .community-art::after { background: linear-gradient(to right, rgba(5,1,8,.82), rgba(5,1,8,.34)), linear-gradient(to top, #050108, transparent 52%); }
+      .community-content { width: 100%; }
+      .community-title { font-size: clamp(4rem, 19vw, 5.6rem); }
+      .community-points { grid-template-columns: 1fr 1fr; }
+      .community-point { min-height: 78px; padding: 11px; align-items: flex-start; flex-direction: column; gap: 8px; }
+      .community-footer { position: static; margin-top: 36px; }
+      .whatsapp-float span { display: none; }
+      .whatsapp-float { width: 52px; height: 52px; padding: 0; justify-content: center; }
+      .whatsapp-float svg { width: 42px; height: 42px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal, .blur-word { opacity: 1; transform: none; filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <div class="edge-frame" aria-hidden="true"></div>
+
+  <header class="nav-wrap">
+    <nav class="nav liquid-glass" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="Equilibria, volver al inicio">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>EQUILIBRIA</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#campos">Aplicaciones</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#comunidad">Comunidad</a>
+      </div>
+      <a class="nav-cta" href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener">
+        Unirme gratis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+      <button class="menu-button liquid-glass" id="menu-button" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú"><span></span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="scene hero" id="inicio">
+      <video class="scene-video video-hero" data-fading-video autoplay muted playsinline preload="auto" poster="../MODELOS DE IMÁGENES/1.png">
+        <source src="../MODELOS DE VIDEOS/1.mp4" type="video/mp4">
+      </video>
+      <div class="scene-vignette" aria-hidden="true"></div>
+      <div class="scene-grid" aria-hidden="true"></div>
+      <div class="shell">
+        <div class="hero-content">
+          <div class="eyebrow liquid-glass reveal">
+            <b>Gratis</b>
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            +500 profesionales ya están dentro
+          </div>
+          <h1 class="display hero-title blur-text" data-blur-text>IA que transforma nuestro planeta.</h1>
+          <p class="body-copy hero-copy reveal" data-delay="1">Aprende a usar inteligencia artificial para transformar la gestión ambiental. De la idea a la realidad, junto a una comunidad que comparte, crea y avanza.</p>
+          <div class="hero-actions reveal" data-delay="2">
+            <a class="button button-primary liquid-glass-strong" href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener">
+              Únete gratis al grupo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+            <a class="button button-secondary liquid-glass" href="#campos">
+              Explorar posibilidades
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-proof reveal" data-delay="3" aria-label="Datos de la comunidad">
+          <article class="proof-card liquid-glass"><strong class="proof-value">+500</strong><span class="proof-label">profesionales ambientales</span></article>
+          <article class="proof-card liquid-glass"><strong class="proof-value">5h</strong><span class="proof-label">en lugar de 5 días de trabajo</span></article>
+          <article class="proof-card liquid-glass"><strong class="proof-value">100%</strong><span class="proof-label">comunidad gratuita y activa</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene capabilities" id="campos">
+      <video class="scene-video" data-fading-video autoplay muted playsinline preload="auto" poster="../MODELOS DE IMÁGENES/14 agentes.png">
+        <source src="../MODELOS DE VIDEOS/2.mp4" type="video/mp4">
+      </video>
+      <div class="scene-vignette" aria-hidden="true"></div>
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker reveal">// Campos de aplicación</div>
+            <h2 class="display section-title blur-text" data-blur-text>Gestión ambiental, <span class="gradient-word">evolucionada.</span></h2>
+          </div>
+          <p class="body-copy section-lead reveal" data-delay="1">Transforma los sectores que más impactan con análisis, automatización y decisiones potenciadas por IA.</p>
+        </div>
+
+        <div class="cards">
+          <article class="field-card liquid-glass reveal">
+            <img class="field-image" src="../MODELOS DE IMÁGENES/3.png" alt="Robot mostrando un sistema inteligente de residuos sólidos" loading="lazy">
+            <span class="field-number liquid-glass">01</span>
+            <div class="field-bottom">
+              <div class="field-tags"><span class="tag">Economía circular</span><span class="tag">Optimización</span></div>
+              <h3>Residuos sólidos</h3>
+              <p>Gestiona residuos de forma inteligente y convierte datos operativos en acciones más sostenibles.</p>
+            </div>
+          </article>
+          <article class="field-card liquid-glass reveal" data-delay="1">
+            <img class="field-image" src="../MODELOS DE IMÁGENES/4.png" alt="Robot mostrando información de monitoreo ambiental" loading="lazy">
+            <span class="field-number liquid-glass">02</span>
+            <div class="field-bottom">
+              <div class="field-tags"><span class="tag">Agua · aire · suelo</span><span class="tag">Decisiones</span></div>
+              <h3>Monitoreo ambiental</h3>
+              <p>Interpreta datos confiables con rapidez para decidir mejor sobre agua, aire, suelo y otros componentes.</p>
+            </div>
+          </article>
+          <article class="field-card liquid-glass reveal" data-delay="2">
+            <img class="field-image" src="../MODELOS DE IMÁGENES/5.png" alt="Robot mostrando información de fiscalización ambiental" loading="lazy">
+            <span class="field-number liquid-glass">03</span>
+            <div class="field-bottom">
+              <div class="field-tags"><span class="tag">Cumplimiento</span><span class="tag">Prevención</span></div>
+              <h3>Fiscalización ambiental</h3>
+              <p>Sistematiza obligaciones, previene riesgos y fortalece el cumplimiento con asistencia de IA.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene laboratory" id="resultados">
+      <div class="scene-grid" aria-hidden="true"></div>
+      <div class="shell">
+        <div class="lab-layout">
+          <figure class="lab-visual liquid-glass reveal">
+            <img src="../MODELOS DE IMÁGENES/14 agentes.png" alt="Ecosistema de agentes de IA especializados en gestión ambiental" loading="lazy">
+            <figcaption class="lab-stamp liquid-glass-strong"><strong>Agentes de IA ambiental</strong><span>Especializados · conectados · listos para crear</span></figcaption>
+          </figure>
+
+          <div class="lab-copy">
+            <div class="section-kicker reveal">// De la idea a la realidad</div>
+            <h2 class="display section-title blur-text" data-blur-text>Crea en horas lo que antes tomaba días.</h2>
+            <p class="body-copy reveal" data-delay="1">Analiza documentos técnicos, sistematiza normas y crea productos listos para tus actividades ambientales, incluso sin experiencia en programación.</p>
+
+            <div class="outputs">
+              <article class="output liquid-glass reveal"><span class="output-icon">⌁</span><h3>Matrices ambientales</h3><p>Identificación, evaluación y seguimiento de impactos.</p></article>
+              <article class="output liquid-glass reveal" data-delay="1"><span class="output-icon">✓</span><h3>Fichas de obligaciones</h3><p>Cumplimiento organizado y listo para fiscalización.</p></article>
+              <article class="output liquid-glass reveal" data-delay="2"><span class="output-icon">♻</span><h3>Planes de residuos</h3><p>Documentos completos creados con asistencia de IA.</p></article>
+            </div>
+
+            <div class="tool-row reveal" data-delay="2" aria-label="Herramientas que aprenderás a usar">
+              <span class="tool liquid-glass"><img src="../LOGOS DE LAS IA/claude-ai-icon.webp" alt="">Claude</span>
+              <span class="tool liquid-glass"><img src="../LOGOS DE LAS IA/chatgtp-ai-icon.png" alt="">ChatGPT</span>
+              <span class="tool liquid-glass"><img src="../LOGOS DE LAS IA/gemini-ai-icon.png" alt="">Gemini</span>
+              <span class="tool liquid-glass"><img src="../LOGOS DE LAS IA/notebookLM-ai-icon.png" alt="">NotebookLM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene community" id="comunidad">
+      <div class="community-art" aria-hidden="true"><img src="../MODELOS DE IMÁGENES/9.png" alt=""></div>
+      <div class="scene-grid" aria-hidden="true"></div>
+      <div class="shell">
+        <div class="community-content">
+          <div class="eyebrow liquid-glass reveal"><b>Comunidad</b><span class="eyebrow-dot" aria-hidden="true"></span>Cupos limitados</div>
+          <h2 class="display community-title blur-text" data-blur-text>Cambiemos juntos nuestro ADN ambiental.</h2>
+          <p class="body-copy community-copy reveal" data-delay="1">No estarás solo. Aprende con profesionales ambientales que comparten recursos, resuelven dudas y convierten ideas en proyectos reales.</p>
+
+          <div class="community-points">
+            <div class="community-point liquid-glass reveal"><i>↗</i>Debate ideas y enfoques</div>
+            <div class="community-point liquid-glass reveal" data-delay="1"><i>+</i>Comparte información útil</div>
+            <div class="community-point liquid-glass reveal" data-delay="2"><i>?</i>Resuelve consultas</div>
+            <div class="community-point liquid-glass reveal" data-delay="3"><i>★</i>Publica tus trabajos</div>
+          </div>
+
+          <div class="community-actions reveal" data-delay="3">
+            <a class="button button-primary liquid-glass-strong" href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener">
+              Quiero ser parte
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+            <span class="availability">Comunidad activa · 100% gratuita</span>
+          </div>
+        </div>
+        <div class="community-footer">Hecho con 💜 por <a href="https://www.equilibriaconsulting.com" target="_blank" rel="noopener">Equilibria Consulting</a> · 2026</div>
+      </div>
+    </section>
+  </main>
+
+  <a class="whatsapp-float" href="https://chat.whatsapp.com/K6IhmpnjjciJ1GeXGi7kmD?mode=gi_t" target="_blank" rel="noopener" aria-label="Unirme gratis al grupo de WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.79a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88M20.46 3.49A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.15 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.23-6.16-3.48-8.41"/></svg>
+    <span>Unirme al grupo</span>
+  </a>
+
+  <script>
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      document.querySelectorAll('[data-fading-video]').forEach((video) => {
+        const FADE_MS = reduceMotion ? 1 : 500;
+        const FADE_OUT_LEAD = 0.55;
+        let rafId = 0;
+        let timeoutId = 0;
+        let fadingOut = false;
+
+        const fadeTo = (target, duration = FADE_MS) => {
+          cancelAnimationFrame(rafId);
+          const start = performance.now();
+          const from = Number.parseFloat(video.style.opacity || getComputedStyle(video).opacity) || 0;
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            video.style.opacity = String(from + (target - from) * progress);
+            if (progress < 1) rafId = requestAnimationFrame(step);
+          };
+          rafId = requestAnimationFrame(step);
+        };
+
+        const onLoaded = () => {
+          video.style.opacity = '0';
+          video.play().catch(() => {});
+          fadeTo(1);
+        };
+        const onTimeUpdate = () => {
+          const remaining = video.duration - video.currentTime;
+          if (!fadingOut && remaining > 0 && remaining <= FADE_OUT_LEAD) {
+            fadingOut = true;
+            fadeTo(0);
+          }
+        };
+        const onEnded = () => {
+          video.style.opacity = '0';
+          clearTimeout(timeoutId);
+          timeoutId = window.setTimeout(() => {
+            video.currentTime = 0;
+            fadingOut = false;
+            video.play().catch(() => {});
+            fadeTo(1);
+          }, 100);
+        };
+
+        video.removeAttribute('loop');
+        video.addEventListener('loadeddata', onLoaded);
+        video.addEventListener('timeupdate', onTimeUpdate);
+        video.addEventListener('ended', onEnded);
+        if (video.readyState >= 2) onLoaded();
+
+        window.addEventListener('pagehide', () => {
+          cancelAnimationFrame(rafId);
+          clearTimeout(timeoutId);
+          video.removeEventListener('loadeddata', onLoaded);
+          video.removeEventListener('timeupdate', onTimeUpdate);
+          video.removeEventListener('ended', onEnded);
+        }, { once: true });
+      });
+
+      document.querySelectorAll('[data-blur-text]').forEach((element) => {
+        const nodes = [...element.childNodes];
+        element.textContent = '';
+        let index = 0;
+        nodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent.trim().split(/\s+/).filter(Boolean).forEach((word) => {
+              const span = document.createElement('span');
+              span.className = 'blur-word';
+              span.textContent = word;
+              span.style.transitionDelay = `${index * 80}ms`;
+              element.appendChild(span);
+              index += 1;
+            });
+          } else {
+            const words = node.textContent.trim().split(/\s+/).filter(Boolean);
+            words.forEach((word) => {
+              const span = document.createElement('span');
+              span.className = `blur-word ${node.className || ''}`;
+              span.textContent = word;
+              span.style.transitionDelay = `${index * 80}ms`;
+              element.appendChild(span);
+              index += 1;
+            });
+          }
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          entry.target.querySelectorAll?.('.blur-word').forEach((word) => word.classList.add('is-visible'));
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+
+      document.querySelectorAll('.reveal, [data-blur-text]').forEach((element) => observer.observe(element));
+
+      const menuButton = document.getElementById('menu-button');
+      const navLinks = document.getElementById('nav-links');
+      const setMenu = (open) => {
+        navLinks.classList.toggle('is-open', open);
+        document.body.classList.toggle('menu-open', open);
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      };
+      menuButton.addEventListener('click', () => setMenu(!navLinks.classList.contains('is-open')));
+      navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+      window.addEventListener('keydown', (event) => { if (event.key === 'Escape') setMenu(false); });
+    })();
+  </script>
+</body>
+</html>
